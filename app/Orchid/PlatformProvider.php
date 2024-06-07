@@ -89,6 +89,17 @@ class PlatformProvider extends OrchidServiceProvider
                 ->url('https://github.com/orchidsoftware/platform/blob/master/CHANGELOG.md')
                 ->target('_blank')
                 ->badge(fn () => Dashboard::version(), Color::DARK),
+
+            Menu::make('Products')
+                ->icon('bs.box')
+                ->route('platform.product.list')
+                ->title('Product Management'),
+
+            Menu::make('Create Product')
+                ->icon('bs.plus-circle')
+                ->route('platform.product.create')
+                ->title('Product Management'),
+
         ];
     }
 
