@@ -28,7 +28,6 @@ class ProductEditScreen extends Screen
     public function commandBar(): array
     {
         return [
-            Link::make('Create')->route('platform.product.create'),
             Button::make('Issue Product')
                 ->icon('check')
                 ->method('issueProduct')
