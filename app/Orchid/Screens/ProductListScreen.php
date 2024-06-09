@@ -8,7 +8,6 @@ use Orchid\Screen\Actions\Link;
 use Orchid\Support\Facades\Layout;
 use Orchid\Screen\TD;
 use Orchid\Screen\Layouts\Table;
-use Orchid\Support\Facades\Toast;
 
 class ProductListScreen extends Screen
 {
@@ -32,7 +31,11 @@ class ProductListScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Link::make('Create')
+                ->icon('plus')
+                ->route('platform.product.create'),
+        ];
     }
 
     /**
@@ -44,14 +47,16 @@ class ProductListScreen extends Screen
     {
         return [
             Layout::table('products', [
-                TD::set('id', 'ID'),
-                TD::set('name', 'Name'),
-                TD::set('price', 'Price'),
-                TD::set('created_at', 'Created')->render(function ($product) {
+                TD::make('id', 'ID'),
+                TD::make('name', 'Name'),
+                TD::make('price', 'Price'),
+                TD::make('quantity', 'Quantity'),
+                TD::make('created_at', 'Created')->render(function ($product) {
                     return $product->created_at->toDateString();
                 }),
-            TD::set('action', 'Actions')->render(function ($product) {
-                    return Link::make('Edit')->route('platform.product.edit', $product);
+                TD::make('action', 'Actions')->render(function ($product) {
+                    return Link::make('Edit')
+                        ->route('platform.product.edit', $product->id);
                 }),
             ]),
         ];

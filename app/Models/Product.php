@@ -4,15 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Orchid\Screen\AsSource;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, AsSource;
 
     protected $fillable = [
         'name',
         'description',
-        'price'
+        'price',
+        'quantity',
     ];
 
     public function stock()

@@ -57,19 +57,32 @@ class ProductEditScreen extends Screen
 
     public function issueProduct(Request $request)
     {
-        $product = Product::find($request->get('product.id'));
-        $quantity = (int)$request->get('quantity');
+        $productId = $request->input('product.id');
+        $quantity = (int) $request->input('quantity');
 
-        $stock = Stock::where('product_id', $product->id)->first();
+        $product = Product::find($productId);
 
-        if ($stock && $stock->quantity >= $quantity) {
-            $stock->quantity -= $quantity;
-            $stock->save();
-            Toast::info('Product issued.');
-        } else {
-            Toast::error('Not enough stock.');
+        if (!$product) {
+            dd("Product with ID $productId not found.");
         }
+
+        $stock = Stock::where('product_id', $productId)->first();
+
+        if (!$stock) {
+            dd("Stock for product with ID $productId not found.");
+        }
+
+        if ($stock->quantity < $quantity) {
+            dd("Not enough stock for product with ID $productId.");
+        }
+
+        // Все проверки пройдены, выпускаем продукт
+
+        $stock->quantity -= $quantity;
+        $stock->save();
+        Toast::info('Product issued.');
 
         return redirect()->route('platform.product.edit', $product);
     }
+
 }

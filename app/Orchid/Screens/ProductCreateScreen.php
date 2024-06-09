@@ -8,7 +8,7 @@ use Orchid\Screen\Screen;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Support\Facades\Layout;
-use Orchid\Support\Facades\Toast;
+use Orchid\Screen\Actions\Button;
 
 class ProductCreateScreen extends Screen
 {
@@ -40,7 +40,11 @@ class ProductCreateScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [];
+        return [
+            Button::make('Create Product')
+                ->method('createOrUpdate')
+                ->icon('plus'),
+        ];
     }
 
     /**
@@ -52,19 +56,45 @@ class ProductCreateScreen extends Screen
     {
         return [
             Layout::rows([
-                Input::make('product.name')->title('Name'),
-                TextArea::make('product.description')->title('Description'),
-                Input::make('product.price')->title('Price'),
-            ])
+                Input::make('product.name')
+                    ->title('Name')
+                    ->placeholder('Product name')
+                    ->required(),
+
+                TextArea::make('product.description')
+                    ->title('Description')
+                    ->rows(3)
+                    ->placeholder('Product description'),
+
+                Input::make('product.price')
+                    ->title('Price')
+                    ->type('number')
+                    ->required(),
+
+                Input::make('product.quantity')
+                    ->title('Quantity')
+                    ->type('number')
+                    ->required(),
+            ]),
         ];
     }
 
-    public function save(Request $request)
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function createOrUpdate(Request $request)
     {
-        $product = new Product();
-        $product->fill($request->get('product'))->save();
+        $request->validate([
+            'product.name' => 'required|string|max:255',
+            'product.description' => 'nullable|string',
+            'product.price' => 'required|numeric',
+            'product.quantity' => 'required|integer',
+        ]);
 
-        Toast::info('Product was created.');
-        return redirect()->route('platform.product.list');
+        Product::create($request->get('product'));
+
+        return redirect()->route('platform.product.list')
+            ->with('success', 'Product created successfully.');
     }
 }
