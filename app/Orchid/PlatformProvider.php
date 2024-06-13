@@ -34,6 +34,10 @@ class PlatformProvider extends OrchidServiceProvider
     public function menu(): array
     {
         return [
+            Menu::make("Товары")
+                ->icon('bs.cart')
+                ->route('platform.supplies'),
+
             Menu::make('Get Started')
                 ->icon('bs.book')
                 ->title('Navigation')
@@ -90,16 +94,9 @@ class PlatformProvider extends OrchidServiceProvider
                 ->target('_blank')
                 ->badge(fn () => Dashboard::version(), Color::DARK),
 
-            Menu::make('Products')
-                ->icon('bs.box')
-                ->route('platform.product.list')
-                ->title('Product Management'),
-
-            Menu::make('Create Product')
-                ->icon('bs.plus-circle')
-                ->route('platform.product.create')
-                ->title('Product Management'),
-
+            Menu::make('Supplies')
+                ->icon('star')
+                ->route('platform.supplies'),
         ];
     }
 

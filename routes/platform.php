@@ -14,15 +14,13 @@ use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
+use App\Orchid\Screens\SupplieEditScreen;
+use App\Orchid\Screens\SuppliesScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
 use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
-use App\Orchid\Screens\ProductListScreen;
-use App\Orchid\Screens\ProductEditScreen;
-use App\Orchid\Screens\ProductCreateScreen;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -107,6 +105,5 @@ Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.exam
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
 
-Route::screen('products', ProductListScreen::class)->name('platform.product.list');
-Route::screen('products/create', ProductCreateScreen::class)->name('platform.product.create');
-Route::screen('products/{product}/edit', ProductEditScreen::class)->name('platform.product.edit');
+Route::screen('/supplies', SuppliesScreen::class)->name('platform.supplies');
+Route::screen('/supply/{supply_id?}', SupplieEditScreen::class)->name('platform.supply');

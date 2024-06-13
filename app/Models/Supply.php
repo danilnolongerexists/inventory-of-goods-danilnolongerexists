@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Screen\AsSource;
 
-class Product extends Model
+class Supply extends Model
 {
     use HasFactory, AsSource;
 
@@ -14,11 +14,6 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'quantity',
+        'amount',
     ];
-
-    public function stock()
-    {
-        return $this->hasOne(Stock::class);
-    }
 }
